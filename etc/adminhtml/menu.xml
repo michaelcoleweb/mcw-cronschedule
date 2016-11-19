@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="MCW_CronSchedule::schedule" title="Cron Schedule" module="MCW_CronSchedule" sortOrder="0" parent="MCW_Base::modules" resource="MCW_CronSchedule::schedule" />
+        <add id="MCW_CronSchedule::schedule_listing" title="Cron Listing" module="MCW_CronSchedule" sortOrder="10" parent="MCW_CronSchedule::schedule" action="cronschedule/listing" resource="MCW_CronSchedule::schedule" />
+        <add id="MCW_CronSchedule::schedule_timeline" title="Cron Timeline" module="MCW_CronSchedule" sortOrder="20" parent="MCW_CronSchedule::schedule" action="cronschedule/timeline" resource="MCW_CronSchedule::schedule"/>
+    </menu>
+</config>

@@ -1,0 +1,89 @@
+<?php /** @var \MCW\CronSchedule\Block\Adminhtml\Timeline $block */ ?>
+
+<div class="page-main-actions">
+    <div class="admin__field">
+        <label for="cron-date"
+               class="admin__field-label hidden">
+            <span><?php echo __('Date'); ?></span>
+        </label>
+        <input type="text"
+               name="cron_date"
+               id="cron-date"
+               class="admin__control-text"
+               title="date"/>
+    </div>
+</div>
+
+<div id="cron-timeline"></div>
+
+<style type="text/css">
+    .vis-item .vis-item-overflow {
+        overflow: visible;
+    }
+</style>
+
+<script type="text/javascript">
+    require([
+        'jquery',
+        'vis',
+        'moment',
+        'Magento_Ui/js/modal/alert',
+        'mage/calendar'
+    ], function($, vis, moment, alert) {
+
+        var dateInput = $('#cron-date'),
+            cronUrl = '<?php echo $block->getAjaxUrl(); ?>',
+            selectedDate = null,
+            timeline;
+
+        dateInput.calendar({
+            buttonText: $.mage.__('Select Date')
+        });
+
+        dateInput.on('change', function() {
+            var cronDate = $(this).val();
+
+            if (selectedDate === cronDate) {
+                return;
+            }
+
+            $.ajax({
+                url : cronUrl,
+                type : 'post',
+                data: {
+                  date: cronDate
+                },
+                showLoader : true,
+                success : function(data){
+                    if (!data.success) {
+                        alert({
+                            title   : $.mage.__('Error retrieving cron events.'),
+                            content : data.error
+                        });
+                    } else {
+                        var container = document.getElementById('cron-timeline'),
+                            items = new vis.DataSet(data.events),
+                            groups = data.groups,
+                            options = {
+                                width: '100%',
+                                height: '640px',
+                                margin: {
+                                    item: 20
+                                },
+                                min: data.date_start,
+                                max: data.date_end,
+                            };
+
+                        if (timeline !== undefined) {
+                            timeline.destroy();
+                        }
+
+                        timeline = new vis.Timeline(container, items, groups, options);
+                    }
+                }
+            });
+
+            selectedDate = $(this).val();
+        });
+    });
+</script>

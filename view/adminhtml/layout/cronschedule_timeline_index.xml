@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="formkey"/>
+    <head>
+        <title>Cron Time Line</title>
+        <css src="MCW_CronSchedule::css/vis.css"/>
+    </head>
+    <body>
+        <referenceBlock name="menu">
+            <action method="setActive">
+                <argument name="itemId" xsi:type="string">MCW_CronSchedule::schedule_timeline</argument>
+            </action>
+        </referenceBlock>
+        <referenceBlock name="page.title">
+            <action method="setPageTitle">
+                <argument name="pageTitle" xsi:type="string">Cron Time Line</argument>
+            </action>
+        </referenceBlock>
+        <referenceContainer name="content">
+            <block class="MCW\CronSchedule\Block\Adminhtml\Timeline"
+                   name="adminhtml.block.cron.timeline"
+                   template="MCW_CronSchedule::timeline.phtml"/>
+        </referenceContainer>
+    </body>
+</page>
